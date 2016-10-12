@@ -37,10 +37,10 @@ public class ThrowBaseball : MonoBehaviour {
     {
 	    if(gameObject.name == "BaseballBoy")
         {
-            otherBoy = GameObject.Find("OtherBaseballBoy");
+            otherBoy = GameObject.Find("AnotherBaseballBoy");
         }
 
-        else if(gameObject.name == "OtherBaseballBoy")
+        else if(gameObject.name == "AnotherBaseballBoy")
         {
             otherBoy = GameObject.Find("BaseballBoy");
         }
