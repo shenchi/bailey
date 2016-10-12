@@ -196,7 +196,7 @@ public class PathFinder : MonoBehaviour
                 int nx = curX + deltaX[i];
                 int ny = curY + deltaY[i];
 
-                if (MapManager.Instance.Map[ny, nx] > 0)
+                if (nx < 0 || nx >= MapManager.Instance.MapWidth || ny < 0 || ny >= MapManager.Instance.MapHeight || MapManager.Instance.Map[ny, nx] > 0)
                     continue;
 
                 uint nHash = HashCoord(nx, ny);
