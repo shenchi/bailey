@@ -1,16 +1,22 @@
 fileFormatVersion: 2
 guid: 38c06c889969eea429e30c7e57526a6f
-timeCreated: 1476249711
+timeCreated: 1476256667
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: dog_sit
-    21300002: dog_stand
-    21300004: dog_stand_side
-    21300006: dog_walk_side_1
-    21300008: dog_walk_side_2
-    21300010: dog_walk_1
-    21300012: dog_walk_2
+    21300002: dog_stand_down
+    21300004: dog_stand_left
+    21300006: dog_walk_left_1
+    21300008: dog_walk_left_2
+    21300010: dog_walk_down_1
+    21300012: dog_walk_down_2
+    21300014: dog_stand_up
+    21300016: dog_walk_up_2
+    21300018: dog_walk_up_1
+    21300020: dog_stand_right
+    21300022: dog_walk_right_1
+    21300024: dog_walk_right_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,93 +66,158 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dog_sit
+      name: dog_stand_down
       rect:
         serializedVersion: 2
-        x: 6
-        y: 36
-        width: 20
-        height: 28
+        x: 0
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.28}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dog_stand
-      rect:
-        serializedVersion: 2
-        x: 6
-        y: 2
-        width: 20
-        height: 28
-      alignment: 9
-      pivot: {x: 0.5, y: 0.28}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: dog_stand_side
+      name: dog_walk_down_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 36
-        width: 31
-        height: 28
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.62, y: 0.28}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dog_walk_side_1
+      name: dog_walk_down_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 37
-        width: 31
-        height: 27
+        y: 96
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.62, y: 0.3}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dog_walk_side_2
+      name: dog_stand_right
       rect:
         serializedVersion: 2
-        x: 96
-        y: 37
-        width: 31
-        height: 27
+        x: 0
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.62, y: 0.3}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dog_walk_1
+      name: dog_walk_right_1
       rect:
         serializedVersion: 2
-        x: 38
-        y: 2
-        width: 20
-        height: 28
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.28}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dog_walk_2
+      name: dog_walk_right_2
       rect:
         serializedVersion: 2
-        x: 70
-        y: 2
-        width: 20
-        height: 28
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.28}
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_stand_left
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_walk_left_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_walk_left_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_stand_up
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_walk_up_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dog_walk_up_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
