@@ -13,7 +13,7 @@ public class NPC_LittleGirl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.timeSinceLevelLoad == 10&&EventIndex==0) {
+        if (Time.timeSinceLevelLoad >= 10&&EventIndex==0) {
             GEM.StartEvent(0, EventIndex++, gameObject);
         }
         if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < 10&&EventIndex==1) {

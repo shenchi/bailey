@@ -27,6 +27,7 @@ public class GameEventManager : MonoBehaviour
                         case 0:
                             //walk to dog, drop doll, walk away ,cry, return happy
                             go.GetComponent<PathFinder>().FindPath(938, -755);//dog house
+                            print("yes");
                             break;
                         case 1:
                             Instantiate(doll, go.transform.position, Quaternion.identity);
