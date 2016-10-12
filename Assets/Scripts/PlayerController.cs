@@ -78,6 +78,10 @@ public class PlayerController : MonoBehaviour
             if (NowOnObject!=null&&Input.GetButtonDown("Attack") && NowOnObject.tag == "NPC") {
                 Attack(NowOnObject);
             }
+            if (NowOnObject != null && Input.GetButtonDown("Hide") && NowOnObject.tag == "Hide") {
+                GetComponentInChildren<TextMesh>().text = "";
+                NowOnObject.GetComponent<HidePlace>().HidePlayer(gameObject);
+            }
         }
 
         //if (gameObject.transform.position == dogHouse.transform.position)
@@ -104,11 +108,17 @@ public class PlayerController : MonoBehaviour
             GetComponentInChildren<TextMesh>().text = "Press E to pick up";
             NowOnObject = other.gameObject;
         }
-        else if (other.tag == "NPC") {
+        else if (other.tag == "NPC")
+        {
             NowOnObject = other.gameObject;
-            if (hasItem) {
+            if (hasItem)
+            {
                 GetComponentInChildren<TextMesh>().text = "Press R to return";
-            }           
+            }
+        }
+        else if (other.tag == "Hide") {
+            NowOnObject = other.gameObject;
+            GetComponentInChildren<TextMesh>().text = "Press H to hide";
         }
     }
     void OnTriggerExit2D(Collider2D other) {
