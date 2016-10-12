@@ -18,7 +18,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 vel = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);
+        float xAxis = Input.GetAxis("Horizontal");
+        float yAxis = Input.GetAxis("Vertical");
+        Vector3 vel = Vector3.zero;
+
+        if (Mathf.Abs(xAxis) > Mathf.Abs(yAxis))
+        {
+            vel.x = xAxis;
+        }
+        else
+        {
+            vel.y = yAxis;
+        }
+
         //transform.Translate(vel * Time.deltaTime * speedFactor);
         rigid.velocity = vel * speedFactor;
     }
