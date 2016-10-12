@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public float speedFactor = 100.0f;
     public bool hasItem;
     public GameObject pickedItem;
+    public string myName;
 
     private Rigidbody2D rigid;
 
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         hasItem = false;
+        myName = GetComponent<NPCProperty>().myName;
     }
 
     // Update is called once per frame
