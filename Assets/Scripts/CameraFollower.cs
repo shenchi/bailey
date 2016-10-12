@@ -17,17 +17,17 @@ public class CameraFollower : MonoBehaviour
 
     void OnEnable()
     {
-        cam = GetComponent<Camera>();
-        halfViewSizeY = cam.orthographicSize;
-        halfViewSizeX = cam.orthographicSize * cam.aspect;
         
-        mapArea = MapManager.TileMap.GetMapRect();
     }
 
     // Use this for initialization
     void Start()
     {
-        OnEnable();
+        cam = GetComponent<Camera>();
+        halfViewSizeY = cam.orthographicSize;
+        halfViewSizeX = cam.orthographicSize * cam.aspect;
+
+        mapArea = MapManager.TileMap.GetMapRect();
     }
 
     // Update is called once per frame

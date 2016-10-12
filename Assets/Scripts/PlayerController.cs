@@ -9,7 +9,13 @@ public class PlayerController : MonoBehaviour
     public string myName;
     public GameObject dogHouse;
 
+    public float velX;
+    public float velY;
+
     private Rigidbody2D rigid;
+    private Animator anim;
+    private int animVelXId;
+    private int animVelYId;
 
     // Use this for initialization
     void Start()
@@ -17,6 +23,9 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         hasItem = false;
         myName = GetComponent<NPCProperty>().myName;
+        anim = GetComponent<Animator>();
+        animVelXId = Animator.StringToHash("velX");
+        animVelYId = Animator.StringToHash("velY");
     }
 
     // Update is called once per frame
@@ -64,5 +73,10 @@ public class PlayerController : MonoBehaviour
         }
         //transform.Translate(vel * Time.deltaTime * speedFactor);
         rigid.velocity = vel * speedFactor;
+        velX = rigid.velocity.x;
+        velY = rigid.velocity.y;
+
+        anim.SetFloat(animVelXId, rigid.velocity.x);
+        anim.SetFloat(animVelYId, rigid.velocity.y);
     }
 }
