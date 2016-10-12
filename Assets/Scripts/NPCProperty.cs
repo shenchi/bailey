@@ -53,5 +53,9 @@ public class NPCProperty : MonoBehaviour {
     public void GetCorrectItem() {
         print("Thank you!");
     }
+    public void TakeAttack() {
+        // shader turn red 
+        print("我挨打啦！");
+    }
 
 }

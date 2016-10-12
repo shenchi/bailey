@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public string myName;
     public GameObject dogHouse;
 
+    public int CrimeIndex;
+
     public float velX;
     public float velY;
 
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         animVelXId = Animator.StringToHash("velX");
         animVelYId = Animator.StringToHash("velY");
+        CrimeIndex = 0;
     }
 
     // Update is called once per frame
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Pick") && hasItem == false)
             {
                 //Detect Item
-                if (NowOnObject != null)
+                if (NowOnObject != null&&NowOnObject.tag=="Item")
                 {
                     pickedItem = NowOnObject;
                     NowOnObject.GetComponent<ItemProperty>().PickUp(gameObject);
@@ -71,6 +74,9 @@ public class PlayerController : MonoBehaviour
                     hasItem = false;
                     GetComponentInChildren<TextMesh>().text = "";
                 }
+            }
+            if (NowOnObject!=null&&Input.GetButtonDown("Attack") && NowOnObject.tag == "NPC") {
+                Attack(NowOnObject);
             }
         }
 
@@ -102,12 +108,17 @@ public class PlayerController : MonoBehaviour
             NowOnObject = other.gameObject;
             if (hasItem) {
                 GetComponentInChildren<TextMesh>().text = "Press R to return";
-            }
-            
+            }           
         }
     }
     void OnTriggerExit2D(Collider2D other) {
         GetComponentInChildren<TextMesh>().text = "";
+        NowOnObject = null;
+    }
+    void Attack(GameObject other)
+    {
+        other.GetComponent<NPCProperty>().TakeAttack();
+        CrimeIndex++;
     }
 
 }
