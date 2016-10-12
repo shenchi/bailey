@@ -3,8 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public Tiled2Unity.TiledMap map;
-
     public float speedFactor = 100.0f;
 
     private Rigidbody2D rigid;

@@ -4,7 +4,6 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour
 {
     public GameObject followee;
-    public Tiled2Unity.TiledMap map;
 
     public float moveThreshold = 0.01f;
     public float followSpeed = 10.0f;
@@ -22,10 +21,10 @@ public class CameraFollower : MonoBehaviour
         halfViewSizeY = cam.orthographicSize;
         halfViewSizeX = cam.orthographicSize * cam.aspect;
 
-        mapArea.x = map.transform.position.x;
-        mapArea.y = map.transform.position.y - map.MapHeightInPixels;
-        mapArea.width = map.MapWidthInPixels;
-        mapArea.height = map.MapHeightInPixels;
+        mapArea.x = MapManager.TileMap.transform.position.x;
+        mapArea.y = MapManager.TileMap.transform.position.y - MapManager.TileMap.MapHeightInPixels;
+        mapArea.width = MapManager.TileMap.MapWidthInPixels;
+        mapArea.height = MapManager.TileMap.MapHeightInPixels;
     }
 
     // Use this for initialization
