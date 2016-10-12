@@ -43,11 +43,21 @@ public class ItemProperty : MonoBehaviour {
             gameObject.transform.position = owner.transform.position;
             gameObject.transform.rotation = owner.transform.rotation;
         }
-
-        if (owner.GetComponent<NPCProperty>().myName == correctNPC && previousOwner.GetComponent<NPCProperty>().myName == "Bailey")
-        {
-            owner.GetComponent<NPCProperty>().NPCHappiness += happiness;
+	}
+    public void Drop(GameObject preOwner) {
+        isPickedUp = false;
+        previousOwner = preOwner;
+        owner = null;
+    }
+    public void PickUp(GameObject Owner) {
+        isPickedUp = true;
+        owner = Owner;
+    }
+    public void Return(GameObject other) {
+        NPCProperty NP;
+        if ((NP = other.GetComponent<NPCProperty>() )!= null&&NP.myName==correctNPC) {//return successful
+            NP.SetHappniess(happiness);
             Destroy(gameObject);
         }
-	}
+    }
 }

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private int animVelXId;
     private int animVelYId;
-    private GameObject NowOnObject;
+    public GameObject NowOnObject;
 
     // Use this for initialization
     void Start()
@@ -50,32 +50,30 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Pick") && hasItem == false)
             {
                 //Detect Item
-                if (NowOnObject != null) {
+                if (NowOnObject != null)
+                {
                     pickedItem = NowOnObject;
-                    pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
-                    pickedItem.GetComponent<ItemProperty>().previousOwner = pickedItem.GetComponent<ItemProperty>().owner;
-                    pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+                    NowOnObject.GetComponent<ItemProperty>().PickUp(gameObject);
                     hasItem = true;
-                }             
+                }
             }
-
-            if (Input.GetButtonDown("Pick") && hasItem == true)
+            else if (Input.GetButtonDown("Pick") && hasItem == true)
             {
-                pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
+                NowOnObject.GetComponent<ItemProperty>().Drop(gameObject);
                 pickedItem = null;
                 hasItem = false;
             }
         }
 
-        if(gameObject.transform.position == dogHouse.transform.position)
-        {
-            dogHouse.GetComponent<DogHouseInventory>().openInventory();
-        }
+        //if (gameObject.transform.position == dogHouse.transform.position)
+        //{
+        //    dogHouse.GetComponent<DogHouseInventory>().openInventory();
+        //}
 
-        if(dogHouse.GetComponent<DogHouseInventory>().isOpened == true && Input.GetButtonDown("Pick"))
-        {
-            dogHouse.GetComponent<DogHouseInventory>().closeInventory();
-        }
+        //if (dogHouse.GetComponent<DogHouseInventory>().isOpened == true && Input.GetButtonDown("Pick"))
+        //{
+        //    dogHouse.GetComponent<DogHouseInventory>().closeInventory();
+        //}
         //transform.Translate(vel * Time.deltaTime * speedFactor);
         rigid.velocity = vel * speedFactor;
         velX = rigid.velocity.x;
@@ -84,10 +82,12 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat(animVelXId, rigid.velocity.x);
         anim.SetFloat(animVelYId, rigid.velocity.y);
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Item") {
+        if (other.tag == "Item")
+        {
             NowOnObject = other.gameObject;
         }
     }
+
 }
