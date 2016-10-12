@@ -131,6 +131,13 @@ public class PathFinder : MonoBehaviour
     static readonly int[] deltaX = { 1, 0, -1, 0 };
     static readonly int[] deltaY = { 0, 1, 0, -1 };
 
+    public void FindPath(float x, float y)
+    {
+        int ix = Mathf.FloorToInt((x - mapRect.xMin) / gridWidth);
+        int iy = Mathf.FloorToInt((-y - mapRect.yMax) / gridHeight);
+        FindPath(ix, iy);
+    }
+
     public void FindPath(int x, int y)
     {
         Dictionary<uint, int> gScore = new Dictionary<uint, int>();
