@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private int animVelXId;
     private int animVelYId;
+    private GameObject NowOnObject;
 
     // Use this for initialization
     void Start()
@@ -49,16 +50,20 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Pick") && hasItem == false)
             {
                 //Detect Item
-                //pickedItem = 
-                pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
-                pickedItem.GetComponent<ItemProperty>().previousOwner = pickedItem.GetComponent<ItemProperty>().owner;
-                pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+                if (NowOnObject != null) {
+                    pickedItem = NowOnObject;
+                    pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
+                    pickedItem.GetComponent<ItemProperty>().previousOwner = pickedItem.GetComponent<ItemProperty>().owner;
+                    pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+                    hasItem = true;
+                }             
             }
 
             if (Input.GetButtonDown("Pick") && hasItem == true)
             {
                 pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
                 pickedItem = null;
+                hasItem = false;
             }
         }
 
@@ -78,5 +83,11 @@ public class PlayerController : MonoBehaviour
 
         anim.SetFloat(animVelXId, rigid.velocity.x);
         anim.SetFloat(animVelYId, rigid.velocity.y);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Item") {
+            NowOnObject = other.gameObject;
+        }
     }
 }
