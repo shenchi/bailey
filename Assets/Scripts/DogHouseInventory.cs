@@ -28,13 +28,15 @@ public class DogHouseInventory : MonoBehaviour {
         }
     }
 
-    void openInventory()
+    public void openInventory()
     {
         InventoryBackground.GetComponent<UIvisibility>().showUI();
+        isOpened = true;
     }
 
-    void closeInventory()
+    public void closeInventory()
     {
         InventoryBackground.GetComponent<UIvisibility>().hideUI();
+        isOpened = false;
     }
 }

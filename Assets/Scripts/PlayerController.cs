@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public bool hasItem;
     public GameObject pickedItem;
     public string myName;
+    public GameObject dogHouse;
 
     private Rigidbody2D rigid;
 
@@ -34,19 +35,31 @@ public class PlayerController : MonoBehaviour
             vel.y = yAxis;
         }
 
-        if(Input.GetButtonDown("Pick") && hasItem == false)
+        if (dogHouse.GetComponent<DogHouseInventory>().isOpened == false)
         {
-            //Detect Item
-            //pickedItem = 
-            pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
-            pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+            if (Input.GetButtonDown("Pick") && hasItem == false)
+            {
+                //Detect Item
+                //pickedItem = 
+                pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
+                pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+            }
+
+            if (Input.GetButtonDown("Pick") && hasItem == true)
+            {
+                pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
+                pickedItem = null;
+            }
         }
 
-        if(Input.GetButtonDown("Pick") && hasItem == true)
+        if(gameObject.transform.position == dogHouse.transform.position)
         {
-            pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
-            pickedItem = null;
+            dogHouse.GetComponent<DogHouseInventory>().openInventory();
+        }
 
+        if(dogHouse.GetComponent<DogHouseInventory>().isOpened == true && Input.GetButtonDown("Pick"))
+        {
+            dogHouse.GetComponent<DogHouseInventory>().closeInventory();
         }
         //transform.Translate(vel * Time.deltaTime * speedFactor);
         rigid.velocity = vel * speedFactor;
