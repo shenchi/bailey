@@ -51,6 +51,7 @@ public class PathFinder : MonoBehaviour
         {
             case State.Reached:
                 state = State.NoPath;
+                currentPathNode = -1;
                 Direction = Vector3.zero;
                 break;
             case State.HeadingFirst:
@@ -150,7 +151,6 @@ public class PathFinder : MonoBehaviour
 
         openSet.Add(startHash);
         gScore[startHash] = 0;
-
         while (openSet.Count > 0)
         {
             uint curHash = 0;

@@ -39,11 +39,11 @@ public class NPCProperty : MonoBehaviour {
         if (m == "bad")
         {
             isHappy = false;
-            GetComponent<TextMesh>().text = ":(";
+            GetComponentInChildren<TextMesh>().text = ":(";
         }
         else if(m=="good"){
             isHappy = true;
-            GetComponent<TextMesh>().text = ":)";
+            GetComponentInChildren<TextMesh>().text = ":)";
         }
     
     }
