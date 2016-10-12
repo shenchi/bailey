@@ -23,6 +23,8 @@ public class ItemProperty : MonoBehaviour {
     /// </summary>
     public int happiness;
 
+    public GameObject previousOwner;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -42,9 +44,9 @@ public class ItemProperty : MonoBehaviour {
             gameObject.transform.rotation = owner.transform.rotation;
         }
 
-        if (owner.GetComponent<NPCProperty>().myName == correctNPC)
+        if (owner.GetComponent<NPCProperty>().myName == correctNPC && previousOwner.GetComponent<NPCProperty>().myName == "Bailey")
         {
-            owner.GetComponent<NPCProperty>().NPChappiness += happiness;
+            owner.GetComponent<NPCProperty>().NPCHappiness += happiness;
             Destroy(gameObject);
         }
 	}

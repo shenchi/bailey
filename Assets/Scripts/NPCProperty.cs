@@ -16,7 +16,7 @@ public class NPCProperty : MonoBehaviour {
     /// <summary>
     /// The happiness of this NPC, if it is higher enough, the NPC will be happy, means isHappy will be set to true.
     /// </summary>
-    public int NPChappiness;
+    public int NPCHappiness;
 
     /// <summary>
     /// What the happiness this NPC needs to become happy.

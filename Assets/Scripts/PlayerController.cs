@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
                 //Detect Item
                 //pickedItem = 
                 pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
+                pickedItem.GetComponent<ItemProperty>().previousOwner = pickedItem.GetComponent<ItemProperty>().owner;
                 pickedItem.GetComponent<ItemProperty>().owner = gameObject;
             }
 
