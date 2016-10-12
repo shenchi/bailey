@@ -31,7 +31,7 @@ public class LinearMovement : MonoBehaviour
                 moving = false;
                 if (null != messageReceiver && string.IsNullOrEmpty(messageOnArrival))
                 {
-                    messageReceiver.SendMessage(messageOnArrival, this);
+                    messageReceiver.SendMessage(messageOnArrival, this.gameObject);
                 }
             }
             else

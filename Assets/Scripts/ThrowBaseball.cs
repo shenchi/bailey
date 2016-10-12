@@ -77,7 +77,27 @@ public class ThrowBaseball : MonoBehaviour {
     public void throwBall()
     {
         //throw baseball towards otherBoy, probably need a lerp
+        float randomNum = Random.Range(0, 1);
+        item = null;
+        hasBall = false;
 
+        if (randomNum >= 0 && randomNum <= 0.7)
+        {
+            item.GetComponent<LinearMovement>().messageReceiver = otherBoy;
+            item.GetComponent<LinearMovement>().MoveTo(otherBoy);
+        }
         //the NPC has a small chance to throw the ball else where
+
+        else if (randomNum > 0.7 && randomNum <= 1)
+        {
+            item.GetComponent<LinearMovement>().MoveTo(new Vector3(otherBoy.transform.position.x + 60, otherBoy.transform.position.y, otherBoy.transform.position.z));
+        }
+
+    }
+
+    void OnBallCatched(GameObject ball)
+    {
+        hasBall = true;
+        item = ball;
     }
 }
