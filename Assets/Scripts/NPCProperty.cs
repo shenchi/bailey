@@ -34,4 +34,21 @@ public class NPCProperty : MonoBehaviour {
     {
 	
 	}
+
+    public void SetMood(string m) {
+        if (m == "bad")
+        {
+            isHappy = false;
+            GetComponent<TextMesh>().text = ":(";
+        }
+        else if(m=="good"){
+            isHappy = true;
+            GetComponent<TextMesh>().text = ":)";
+        }
+    
+    }
+    public void SetHappniess(int num) {
+        NPChappiness = Mathf.Clamp(NPChappiness + num, 0, 100);
+    }
+
 }
