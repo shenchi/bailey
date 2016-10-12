@@ -55,13 +55,22 @@ public class PlayerController : MonoBehaviour
                     pickedItem = NowOnObject;
                     NowOnObject.GetComponent<ItemProperty>().PickUp(gameObject);
                     hasItem = true;
+                    GetComponentInChildren<TextMesh>().text = "";
                 }
             }
             else if (Input.GetButtonDown("Pick") && hasItem == true)
             {
-                NowOnObject.GetComponent<ItemProperty>().Drop(gameObject);
+                pickedItem.GetComponent<ItemProperty>().Drop(gameObject);
                 pickedItem = null;
                 hasItem = false;
+            }
+            if (Input.GetButtonDown("Return") && hasItem == true && NowOnObject.tag=="NPC")//return to NPC
+            {
+                if (pickedItem.GetComponent<ItemProperty>().Return(NowOnObject)) {
+                    pickedItem = null;
+                    hasItem = false;
+                    GetComponentInChildren<TextMesh>().text = "";
+                }
             }
         }
 
@@ -86,8 +95,19 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "Item")
         {
+            GetComponentInChildren<TextMesh>().text = "Press E to pick up";
             NowOnObject = other.gameObject;
         }
+        else if (other.tag == "NPC") {
+            NowOnObject = other.gameObject;
+            if (hasItem) {
+                GetComponentInChildren<TextMesh>().text = "Press R to return";
+            }
+            
+        }
+    }
+    void OnTriggerExit2D(Collider2D other) {
+        GetComponentInChildren<TextMesh>().text = "";
     }
 
 }

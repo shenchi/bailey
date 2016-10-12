@@ -50,5 +50,8 @@ public class NPCProperty : MonoBehaviour {
     public void SetHappniess(int num) {
         NPCHappiness = Mathf.Clamp(NPCHappiness + num, 0, 100);
     }
+    public void GetCorrectItem() {
+        print("Thank you!");
+    }
 
 }

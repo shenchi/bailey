@@ -53,11 +53,17 @@ public class ItemProperty : MonoBehaviour {
         isPickedUp = true;
         owner = Owner;
     }
-    public void Return(GameObject other) {
+    public bool Return(GameObject other) {
         NPCProperty NP;
-        if ((NP = other.GetComponent<NPCProperty>() )!= null&&NP.myName==correctNPC) {//return successful
+        if ((NP = other.GetComponent<NPCProperty>()) != null && NP.myName == correctNPC)
+        {//return successful
             NP.SetHappniess(happiness);
+            NP.GetCorrectItem();
             Destroy(gameObject);
+            return (true);
+        }
+        else {
+            return (false);
         }
     }
 }
