@@ -4,6 +4,8 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public float speedFactor = 100.0f;
+    public bool hasItem;
+    public GameObject pickedItem;
 
     private Rigidbody2D rigid;
 
@@ -11,6 +13,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        hasItem = false;
     }
 
     // Update is called once per frame
@@ -29,6 +32,20 @@ public class PlayerController : MonoBehaviour
             vel.y = yAxis;
         }
 
+        if(Input.GetKeyDown("Pick") && hasItem == false)
+        {
+            //Detect Item
+            //pickedItem = 
+            pickedItem.GetComponent<ItemProperty>().isPickedUp = true;
+            pickedItem.GetComponent<ItemProperty>().owner = gameObject;
+        }
+
+        if(Input.GetKeyDown("Pick") && hasItem == true)
+        {
+            pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
+            pickedItem = null;
+
+        }
         //transform.Translate(vel * Time.deltaTime * speedFactor);
         rigid.velocity = vel * speedFactor;
     }
