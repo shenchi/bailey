@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
             vel.y = yAxis;
         }
 
-        if(Input.GetKeyDown("Pick") && hasItem == false)
+        if(Input.GetButtonDown("Pick") && hasItem == false)
         {
             //Detect Item
             //pickedItem = 
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
             pickedItem.GetComponent<ItemProperty>().owner = gameObject;
         }
 
-        if(Input.GetKeyDown("Pick") && hasItem == true)
+        if(Input.GetButtonDown("Pick") && hasItem == true)
         {
             pickedItem.GetComponent<ItemProperty>().isPickedUp = false;
             pickedItem = null;
