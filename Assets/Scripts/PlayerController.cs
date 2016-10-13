@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool IsAttackAnim;
     private float AttackAnim;
     private Vector3 direction;
-
+    private float RedTime;
     public float velX;
     public float velY;
 
@@ -41,11 +41,21 @@ public class PlayerController : MonoBehaviour
         AttackAnim = 0;
         direction = Vector3.zero;
         gameObject.tag = "DogCatcher";
+        RedTime = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            TakeAttack(1);
+        }
+        if (RedTime >= 0) {
+            RedTime -= Time.deltaTime;
+            if (RedTime <= 0) {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
         if (IsAttackAnim) {           
             if (AttackAnim == 0) {
                 transform.position +=  3*direction;
@@ -177,7 +187,7 @@ public class PlayerController : MonoBehaviour
         print(other.tag);
         if (other.tag == "NPC")
         {
-            other.GetComponent<NPCProperty>().TakeAttack();
+            other.GetComponent<NPCProperty>().TakeAttack(this.attack);
             CrimeIndex++;
         }
         else if (other.tag == "OtherDog")
@@ -191,6 +201,8 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeAttack(int damage)
     {
+        RedTime = 0.3f;
+        GetComponent<SpriteRenderer>().color = Color.red;
         curhp = Mathf.Clamp(curhp - damage, 0, maxhp);
     }
 

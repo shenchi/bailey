@@ -5,61 +5,72 @@ public class DogCatcher : MonoBehaviour
 {
     private float LostTime;
     private Vector3 destination;
-    private bool isFollowing;
     private GameObject target;
     private bool isArrived;
     public int hp;
     public int attack;
     private float attackCd;
+    private float RedTime;
 
     // Use this for initialization
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player");
-        isFollowing = true;
         LostTime = 0;
         attackCd = 1;
         isArrived = true;
+        RedTime = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(target.transform.position, transform.position);
-        if (isArrived)
+        if (RedTime >= 0)
         {
-            if (distance < 20)
+            RedTime -= Time.deltaTime;
+            if (RedTime <= 0)
             {
-                //attack
-                if (attackCd == 1)
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        if (target != null)
+        {
+            if (isArrived)
+            {
+                if (distance < 20)
                 {
-                    attackCd -= Time.deltaTime;
-                    Attack(target);
+                    //attack
+                    if (attackCd == 1)
+                    {
+                        attackCd -= Time.deltaTime;
+                        Attack(target);
+                    }
+                    else
+                    {
+                        attackCd -= Time.deltaTime;
+                        if (attackCd <= 0)
+                        {
+                            attackCd = 1;
+                        }
+                    }
                 }
                 else
                 {
-                    attackCd -= Time.deltaTime;
-                    if (attackCd <= 0)
-                    {
-                        attackCd = 1;
-                    }
+                    destination = target.transform.position;
+                    GetComponent<PathFinder>().FindPath(destination.x, destination.y);
+                    isArrived = false;
                 }
+
             }
             else
             {
-                destination = target.transform.position;
-                GetComponent<PathFinder>().FindPath(destination.x, destination.y);
-                isArrived = false;
+                if (Vector3.Distance(transform.position, destination) < 15)
+                {
+                    isArrived = true;
+                }
             }
-            
-        }
-        else
-        {
-            if (Vector3.Distance(transform.position, destination) < 15)
-            {
-                isArrived = true;
-            }
-        }
+        }     
 
 
         //if (isFirst) {
@@ -117,15 +128,31 @@ public class DogCatcher : MonoBehaviour
     {
         if (target.tag == "Player")
         {
-            go.GetComponent<PlayerController>().TakeAttack(attack);
+            if (target.GetComponent<PlayerController>().curhp > 0)
+            {
+                go.GetComponent<PlayerController>().TakeAttack(attack);
+            }
+            else {
+                target = null;
+            }
+            
         }
         else if (target.tag == "OtherDog")
         {
-            go.GetComponent<OtherDog>().TakeAttack(attack, gameObject);
+            if (target.GetComponent<OtherDog>().curhp > 0)
+            {
+                go.GetComponent<OtherDog>().TakeAttack(attack, gameObject);
+            }
+            else {
+                target = GameObject.FindGameObjectWithTag("Player");
+            }
+           
         }
     }
     public void TakeAttack(int damage, GameObject go)
     {
+        RedTime = 0.3f;
+        GetComponent<SpriteRenderer>().color = Color.red;
         target = go;
         hp = Mathf.Clamp(hp - damage, 0, hp);
         if (hp <= 0)

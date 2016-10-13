@@ -15,6 +15,7 @@ public class OtherDog : MonoBehaviour
     private float AttackCd;
     private GameObject[] RandomPoint;
     private bool IsFollow;
+    private float RedTime;
     // Use this for initialization
     void Start()
     {
@@ -27,6 +28,7 @@ public class OtherDog : MonoBehaviour
             BeginToAttack(GameObject.FindGameObjectWithTag("Player"));
         }
         this.tag = "OtherDog";
+        RedTime = -1;
     }
 
     // Update is called once per frame
@@ -37,9 +39,15 @@ public class OtherDog : MonoBehaviour
         //if player help this dog, then become friend, then go randomly
         //if player call fo help, hall his friends come together to help attack the other dog
         //give sth to the dog then become friends
-        if (curhp <= 0) {
-            Destroy(gameObject);
+        if (RedTime >= 0)
+        {
+            RedTime -= Time.deltaTime;
+            if (RedTime <= 0)
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
+
         if (!IsAttack)
         {
             if (Mathf.FloorToInt(Time.timeSinceLevelLoad) - LastRandomTime >= RandomTime)
@@ -118,7 +126,6 @@ public class OtherDog : MonoBehaviour
             else
             {
                 IsAttack = false;
-                curhp = maxhp;
                 AttackTarget = null;
             }
         }
@@ -131,15 +138,44 @@ public class OtherDog : MonoBehaviour
             else
             {
                 IsAttack = false;
-                curhp = maxhp;
+                AttackTarget = null;
+            }
+        }
+        else if (AttackTarget.tag == "NPC") {
+            if (AttackTarget.GetComponent<NPCProperty>().hp > 0)
+            {
+                AttackTarget.GetComponent<NPCProperty>().TakeAttack(this.attack);
+            }
+            else
+            {
+                IsAttack = false;
+                AttackTarget = null;
+            }
+
+        }
+        else if (AttackTarget.tag == "DogCatcher")
+        {
+            if (AttackTarget.GetComponent<DogCatcher>().hp > 0)
+            {
+                AttackTarget.GetComponent<DogCatcher>().TakeAttack(this.attack,gameObject);
+            }
+            else
+            {
+                IsAttack = false;
                 AttackTarget = null;
             }
         }
     }
     public void TakeAttack(int damage, GameObject go)
     {
+        RedTime = 0.3f;
+        GetComponent<SpriteRenderer>().color = Color.red;
         BeginToAttack(go);
         curhp = Mathf.Clamp(curhp - damage, 0, maxhp);
+        if (curhp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
     public void HelpFirend(GameObject target) {
         BeginToAttack(target);

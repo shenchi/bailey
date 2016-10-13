@@ -23,17 +23,27 @@ public class NPCProperty : MonoBehaviour {
     /// </summary>
     public int howMuchToHappy;
 
+    public int hp;
+    private float RedTime;
+
     // Use this for initialization
     void Start ()
     {
-	    
-	}
+        RedTime = -1;
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-	
-	}
+        if (RedTime >= 0)
+        {
+            RedTime -= Time.deltaTime;
+            if (RedTime <= 0)
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
+    }
 
     public void SetMood(string m) {
         if (m == "bad")
@@ -53,9 +63,15 @@ public class NPCProperty : MonoBehaviour {
     public void GetCorrectItem() {
         print("Thank you!");
     }
-    public void TakeAttack() {
+    public void TakeAttack(int damage) {
         // shader turn red 
-        print("我挨打啦！");
+        GetComponent<SpriteRenderer>().color = Color.red;
+        RedTime = 0.3f;
+        hp = Mathf.Clamp(hp - damage, 0, hp);
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
 }
