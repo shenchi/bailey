@@ -88,8 +88,7 @@ public class NPCManager : MonoBehaviour {
 
         {
             Vector3 spawnPoint = new Vector3(625, -271, -5);
-            Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-            currentBaseball = (GameObject)Instantiate(baseball);
+            currentBaseball = (GameObject)Instantiate(baseball, spawnPoint,Quaternion.identity);
             currentBaseball.GetComponent<ItemProperty>().isPickedUp = true;
             currentBaseball.GetComponent<ItemProperty>().owner = currentBaseballBoy;
             currentBaseballBoy.GetComponent<ThrowBaseball>().hasBall = true;
