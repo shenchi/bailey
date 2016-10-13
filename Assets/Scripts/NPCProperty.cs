@@ -61,7 +61,12 @@ public class NPCProperty : MonoBehaviour {
         NPCHappiness = Mathf.Clamp(NPCHappiness + num, 0, 100);
     }
     public void GetCorrectItem() {
-        SetMood("good");
+        if (tag == "NPC") {
+            SetMood("good");
+        }else if (tag == "OtherDog") {
+            GetComponent<OtherDog>().BecomeFriends(GameObject.FindGameObjectWithTag("Player"));    
+        }
+       
     }
     public void TakeAttack(int damage) {
         // shader turn red 

@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
                 pickedItem = null;
                 hasItem = false;
             }
-            if (Input.GetButtonDown("Return") && hasItem == true && NowOnObject.tag == "NPC")//return to NPC
+            if (Input.GetButtonDown("Return") && hasItem == true && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog"))//return to NPC
             {
                 if (pickedItem.GetComponent<ItemProperty>().Return(NowOnObject))
                 {
@@ -127,6 +127,15 @@ public class PlayerController : MonoBehaviour
             {
                 GetComponentInChildren<TextMesh>().text = "";
                 NowOnObject.GetComponent<HidePlace>().HidePlayer(gameObject);               
+            }
+            if (NowOnObject != null && Input.GetButtonDown("Help") && (NowOnObject.tag == "NPC" || NowOnObject.tag == "OtherDog" || NowOnObject.tag == "DogCatcher"))
+            {
+                GameObject[] go = GameObject.FindGameObjectsWithTag("OtherDog");
+                foreach (GameObject i in go) {
+                    if (i.GetComponent<OtherDog>().FriendsTo == gameObject&&NowOnObject!=i) {
+                        i.GetComponent<OtherDog>().HelpFirend(NowOnObject);
+                    }
+                }
             }
         }
 

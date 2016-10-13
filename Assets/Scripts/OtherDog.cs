@@ -19,7 +19,7 @@ public class OtherDog : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        RandomTime = 5f;
+        RandomTime = 20f;
         IsFollow = false;
         LastRandomTime = 0;
         AttackCd = 2;

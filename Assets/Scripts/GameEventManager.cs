@@ -5,6 +5,8 @@ public class GameEventManager : MonoBehaviour
 {
     public GameObject dogCatcher;
     public GameObject wildDog;
+    public GameObject Bone;
+    public GameObject UImanager;
     public int maxDogNum;
     public int alldogcatchernum;
     public int maxDogCatcherNum;
@@ -29,6 +31,8 @@ public class GameEventManager : MonoBehaviour
             lastgenetime = Time.timeSinceLevelLoad;
             int r = Random.Range(0, RandomPoints.Length);
             Instantiate(wildDog, RandomPoints[r].transform.position, Quaternion.identity);
+            r = Random.Range(0, RandomPoints.Length);
+            Instantiate(Bone, RandomPoints[r].transform.position, Quaternion.identity);
             maxDogNum--;
         }
         if (alldogcatchernum == 0) {
@@ -36,7 +40,7 @@ public class GameEventManager : MonoBehaviour
         }
         if (thisWaveNum <= 0) {
             isThisWaveOver = true;
-            GameObject.Find("Canvas").GetComponent<UIManager>().SetStar(0);
+            UImanager.GetComponent<UIManager>().SetStar(0);
         }
     }
     public void CallDogCatcher(int num) {
