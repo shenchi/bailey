@@ -16,11 +16,13 @@ public class HidePlace : MonoBehaviour {
             {               
                 Player.SetActive(true);
                 Player = null;
+                GameObject.Find("Canvas").GetComponent<UIManager>().StarFlashOff();
             }
         }
         
 	}
     public void HidePlayer(GameObject p) {
+        GameObject.Find("Canvas").GetComponent<UIManager>().StarFlashOn();
         Player = p;
         p.SetActive(false);
     }

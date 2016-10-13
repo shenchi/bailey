@@ -5,7 +5,7 @@ public class DogCatcher : MonoBehaviour
 {
     private float LostTime;
     private Vector3 destination;
-    private GameObject target;
+    public GameObject target;
     private bool isArrived;
     public int hp;
     public int attack;
@@ -20,6 +20,8 @@ public class DogCatcher : MonoBehaviour
         attackCd = 1;
         isArrived = true;
         RedTime = -1;
+        hp = Random.Range(5, 10);
+        attack = Random.Range(2, 6);
     }
 
     // Update is called once per frame
@@ -33,26 +35,33 @@ public class DogCatcher : MonoBehaviour
                 GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
-        float distance = Vector3.Distance(target.transform.position, transform.position);
+        
         if (target != null)
         {
+            float distance = Vector3.Distance(target.transform.position, transform.position);
             if (isArrived)
             {
                 if (distance < 20)
                 {
                     //attack
-                    if (attackCd == 1)
+                    if (target.activeInHierarchy)
                     {
-                        attackCd -= Time.deltaTime;
-                        Attack(target);
-                    }
-                    else
-                    {
-                        attackCd -= Time.deltaTime;
-                        if (attackCd <= 0)
+                        if (attackCd == 1)
                         {
-                            attackCd = 1;
+                            attackCd -= Time.deltaTime;
+                            Attack(target);
                         }
+                        else
+                        {
+                            attackCd -= Time.deltaTime;
+                            if (attackCd <= 0)
+                            {
+                                attackCd = 1;
+                            }
+                        }
+                    }
+                    else {
+                        LostTime += Time.deltaTime;
                     }
                 }
                 else
@@ -69,6 +78,12 @@ public class DogCatcher : MonoBehaviour
                 {
                     isArrived = true;
                 }
+            }
+            if (LostTime > 10) {
+                Destroy(gameObject);
+                GameObject.Find("GameController").GetComponent<GameEventManager>().hasGeneDogCatcherNum--;
+                GameObject.Find("GameController").GetComponent<GameEventManager>().thisWaveNum--;
+                GameObject.Find("Canvas").GetComponent<UIManager>().SetStar(0);
             }
         }     
 
@@ -157,6 +172,8 @@ public class DogCatcher : MonoBehaviour
         hp = Mathf.Clamp(hp - damage, 0, hp);
         if (hp <= 0)
         {
+            GameObject.Find("GameController").GetComponent<GameEventManager>().alldogcatchernum--;
+            GameObject.Find("GameController").GetComponent<GameEventManager>().thisWaveNum--;
             Destroy(gameObject);
         }
     }

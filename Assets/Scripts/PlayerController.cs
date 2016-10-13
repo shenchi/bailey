@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         attackCd = 1;
         AttackAnim = 0;
         direction = Vector3.zero;
-        gameObject.tag = "DogCatcher";
         RedTime = -1;
     }
 
@@ -184,7 +183,6 @@ public class PlayerController : MonoBehaviour
     }
     void Attack(GameObject other)
     {
-        print(other.tag);
         if (other.tag == "NPC")
         {
             other.GetComponent<NPCProperty>().TakeAttack(this.attack);

@@ -14,6 +14,7 @@ public class TimeTrigger
 
 public class TimeManager : MonoBehaviour
 {
+    public Canvas uiCanvas;
     public Transform clockPointer;
     public DayLight dayLightEffect;
     public float timeForDayTime = 90.0f;
@@ -161,7 +162,7 @@ public class TimeManager : MonoBehaviour
         if (state == State.Day)
             return;
 
-        clockPointer.parent.gameObject.SetActive(true);
+        uiCanvas.gameObject.SetActive(true);
 
         timeWhenStateBegin = Time.time;
         state = State.Day;
@@ -173,7 +174,7 @@ public class TimeManager : MonoBehaviour
             return;
 
 
-        clockPointer.parent.gameObject.SetActive(false);
+        uiCanvas.gameObject.SetActive(false);
 
         dayPassed++;
         timeWhenStateBegin = Time.time;

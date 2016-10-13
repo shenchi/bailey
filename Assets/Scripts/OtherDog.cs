@@ -19,9 +19,10 @@ public class OtherDog : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        RandomTime = 5f;
         IsFollow = false;
         LastRandomTime = 0;
-        AttackCd = 3;
+        AttackCd = 2;
         RandomPoint = GameObject.FindGameObjectsWithTag("RandomPoint");
         int i=Random.Range(0, 100);
         if (i < 20) {
@@ -29,6 +30,10 @@ public class OtherDog : MonoBehaviour
         }
         this.tag = "OtherDog";
         RedTime = -1;
+
+        maxhp = Random.Range(1, 10);
+        curhp = maxhp;
+        attack = Random.Range(1, 5);
     }
 
     // Update is called once per frame
@@ -80,7 +85,7 @@ public class OtherDog : MonoBehaviour
                 }
                 else
                 {//attack
-                    if (AttackCd == 3)
+                    if (AttackCd == 2)
                     {
                         Attack();
                         AttackCd -= Time.deltaTime;
@@ -89,7 +94,7 @@ public class OtherDog : MonoBehaviour
                     {
                         AttackCd -= Time.deltaTime;
                         if (AttackCd <= 0) {
-                            AttackCd = 3;
+                            AttackCd = 2;
                         }                      
                     }
                 }
@@ -117,6 +122,9 @@ public class OtherDog : MonoBehaviour
     }
     void Attack()
     {
+        if (!AttackTarget.activeInHierarchy) {
+            return;
+        }
         if (AttackTarget.tag == "OtherDog")
         {
             if (AttackTarget.GetComponent<OtherDog>().curhp > 0)
@@ -174,6 +182,7 @@ public class OtherDog : MonoBehaviour
         curhp = Mathf.Clamp(curhp - damage, 0, maxhp);
         if (curhp <= 0)
         {
+            GameObject.Find("GameController").GetComponent<GameEventManager>().maxDogNum++;
             Destroy(gameObject);
         }
     }

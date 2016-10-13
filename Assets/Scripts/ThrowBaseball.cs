@@ -45,7 +45,6 @@ public class ThrowBaseball : MonoBehaviour {
     {
         if (isArrived)
         {
-            print(Time.time + "      " + lastTimePlaying+"    "+(Time.time-lastTimePlaying));
             if (!isUpset&&hasBall == false && otherBoy.GetComponent<ThrowBaseball>().hasBall == false && (Time.time - lastTimePlaying) >= timeTillUpset)
             {
                 isUpset = true;

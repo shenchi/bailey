@@ -14,12 +14,6 @@ public class UIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         StarFlash();
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            SetStar(3);
-        }
-        if (Input.GetKeyDown(KeyCode.X)) {
-            StarFlashOn();
-        }
     }
     public void SetStar(int i) {
         foreach (GameObject star in Stars) {

@@ -15,23 +15,23 @@ public class NPC_LittleGirl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.timeSinceLevelLoad >= 3&&EventIndex==0) {
-            GEM.StartEvent(0, EventIndex++, gameObject);
-            EventTime = Time.timeSinceLevelLoad;
-        }
-        if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < 50&&EventIndex==1) {
-            GEM.StartEvent(0, EventIndex++, gameObject);
-            EventTime = Time.timeSinceLevelLoad;
-        }
+        //if (Time.timeSinceLevelLoad >= 3&&EventIndex==0) {
+        //    GEM.StartEvent(0, EventIndex++, gameObject);
+        //    EventTime = Time.timeSinceLevelLoad;
+        //}
+        //if (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < 50&&EventIndex==1) {
+        //    GEM.StartEvent(0, EventIndex++, gameObject);
+        //    EventTime = Time.timeSinceLevelLoad;
+        //}
         
-        if (Time.timeSinceLevelLoad-EventTime>=5 && EventIndex == 2) {
-            GEM.StartEvent(0, EventIndex++, gameObject);
-            EventTime = Time.timeSinceLevelLoad;
-        }
-        if (Time.timeSinceLevelLoad - EventTime >= 5 && EventIndex == 3)
-        {
-            GEM.StartEvent(0, EventIndex++, gameObject);
-        }
+        //if (Time.timeSinceLevelLoad-EventTime>=5 && EventIndex == 2) {
+        //    GEM.StartEvent(0, EventIndex++, gameObject);
+        //    EventTime = Time.timeSinceLevelLoad;
+        //}
+        //if (Time.timeSinceLevelLoad - EventTime >= 5 && EventIndex == 3)
+        //{
+        //    GEM.StartEvent(0, EventIndex++, gameObject);
+        //}
     }
     
 }

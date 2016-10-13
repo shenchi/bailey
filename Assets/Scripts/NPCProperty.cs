@@ -66,6 +66,7 @@ public class NPCProperty : MonoBehaviour {
     public void TakeAttack(int damage) {
         // shader turn red 
         GetComponent<SpriteRenderer>().color = Color.red;
+        GameObject.Find("GameController").GetComponent<GameEventManager>().CallDogCatcher((GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().CrimeIndex/3)+1);
         RedTime = 0.3f;
         hp = Mathf.Clamp(hp - damage, 0, hp);
         if (hp <= 0)
