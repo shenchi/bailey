@@ -12,6 +12,7 @@ public class LinearMovement : MonoBehaviour
 
     private bool moving = false;
     private float timeSpeed = 0.0f;
+    private float t = 0;
     private Vector3 startPosition;
     private Vector3 targetPosition;
 
@@ -29,14 +30,19 @@ public class LinearMovement : MonoBehaviour
             if ((transform.position - targetPosition).magnitude < distanceThreshold)
             {
                 moving = false;
-                if (null != messageReceiver && string.IsNullOrEmpty(messageOnArrival))
-                {
-                    messageReceiver.SendMessage(messageOnArrival, this.gameObject);
+                //if (null != messageReceiver && string.IsNullOrEmpty(messageOnArrival))
+                //{
+                //    messageReceiver.SendMessage(messageOnArrival, this.gameObject);
+                //}
+                if (null != messageReceiver) {
+                    messageReceiver.GetComponent<ThrowBaseball>().OnBallCatched(gameObject);
                 }
+                
             }
             else
             {
-                transform.position = Vector3.Lerp(startPosition, targetPosition, Time.deltaTime * timeSpeed);
+                t += Time.deltaTime * timeSpeed;
+                transform.position = Vector3.Lerp(startPosition, targetPosition, t);
             }
         }
     }
@@ -56,7 +62,8 @@ public class LinearMovement : MonoBehaviour
         targetPosition = v;
         startPosition = transform.position;
         targetPosition.z = startPosition.z;
-        timeSpeed = (targetPosition - startPosition).magnitude / speed;
+        timeSpeed = speed/(targetPosition - startPosition).magnitude;
+        t = 0.0f;
         moving = true;
     }
 }

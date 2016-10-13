@@ -49,11 +49,11 @@ public class NPCProperty : MonoBehaviour {
         if (m == "bad")
         {
             isHappy = false;
-            GetComponentInChildren<TextMesh>().text = ":(";
+            transform.FindChild("Mood").GetComponent<SpriteRenderer>().enabled = true;
         }
         else if(m=="good"){
             isHappy = true;
-            GetComponentInChildren<TextMesh>().text = ":)";
+            transform.FindChild("Mood").GetComponent<SpriteRenderer>().enabled = false;
         }
     
     }
@@ -61,7 +61,7 @@ public class NPCProperty : MonoBehaviour {
         NPCHappiness = Mathf.Clamp(NPCHappiness + num, 0, 100);
     }
     public void GetCorrectItem() {
-        print("Thank you!");
+        SetMood("good");
     }
     public void TakeAttack(int damage) {
         // shader turn red 

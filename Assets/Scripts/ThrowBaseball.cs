@@ -45,6 +45,12 @@ public class ThrowBaseball : MonoBehaviour {
     {
         if (isArrived)
         {
+            print(Time.time + "      " + lastTimePlaying+"    "+(Time.time-lastTimePlaying));
+            if (!isUpset&&hasBall == false && otherBoy.GetComponent<ThrowBaseball>().hasBall == false && (Time.time - lastTimePlaying) >= timeTillUpset)
+            {
+                isUpset = true;
+                GetComponent<NPCProperty>().SetMood("bad");
+            }
             if (null == item)
             {
                 hasBall = false;
@@ -58,10 +64,7 @@ public class ThrowBaseball : MonoBehaviour {
                 throwBall();
             }
 
-            if (hasBall == false && otherBoy.GetComponent<ThrowBaseball>().hasBall == false && Time.time - lastTimePlaying >= timeTillUpset)
-            {
-                isUpset = true;
-            }
+            
 
             //if (item.name != "Baseball")
             //{
@@ -81,30 +84,33 @@ public class ThrowBaseball : MonoBehaviour {
     {
         item.GetComponent<ItemProperty>().Drop(gameObject);
         //throw baseball towards otherBoy, probably need a lerp
-        float randomNum = Random.Range(0, 1);
+        float randomNum = Random.Range(0f, 1f);
 
-        if (randomNum >= 0 && randomNum <= 0.7)
+        if (randomNum >= 0 && randomNum <= 0.95f)
         {
             item.GetComponent<LinearMovement>().messageReceiver = otherBoy;
             item.GetComponent<LinearMovement>().MoveTo(otherBoy);
         }
         //the NPC has a small chance to throw the ball else where
 
-        else if (randomNum > 0.7 && randomNum <= 1)
+        else if (randomNum > 0.95f && randomNum <= 1)
         {
             item.GetComponent<LinearMovement>().MoveTo(new Vector3(otherBoy.transform.position.x + 60, otherBoy.transform.position.y, otherBoy.transform.position.z));
+            item.GetComponent<LinearMovement>().messageReceiver = null;
         }
 
         item = null;
         hasBall = false;
     }
 
-    void OnBallCatched(GameObject ball)
+    public void OnBallCatched(GameObject ball)
     {
+        lastTimePlaying = Time.time;
         hasBall = true;
         item = ball;
     }
     public void Arrived() {
         isArrived = true;
+        lastTimePlaying = Time.time;
     }
 }

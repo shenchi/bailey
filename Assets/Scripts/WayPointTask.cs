@@ -84,6 +84,9 @@ public class WayPointTask : MonoBehaviour
                         GameObject b2 = GameObject.Find("NPCManager").GetComponent<NPCManager>().currentAnotherBaseballBoy;
                         b1.GetComponent<ThrowBaseball>().Arrived();
                         b2.GetComponent<ThrowBaseball>().Arrived();
+                        float seconds = float.Parse(subTask.value);
+                        yield return new WaitForSeconds(seconds);
+                        currentTask++;
                     }
                     break;
             }
