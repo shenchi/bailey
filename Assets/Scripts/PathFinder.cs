@@ -114,6 +114,12 @@ public class PathFinder : MonoBehaviour
                 Direction = Vector3.zero;
                 break;
         }
+
+        if (null != anim)
+        {
+            anim.SetFloat(velXId, Direction.x * 100.0f);
+            anim.SetFloat(velYId, Direction.y * 100.0f);
+        }
     }
 
     void UpdatePosition()
