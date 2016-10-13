@@ -9,6 +9,7 @@ public class TimeTrigger
     public float hour;
     public GameObject messageReceiver;
     public string message;
+    public bool inUse;
 }
 
 public class TimeManager : MonoBehaviour
@@ -39,7 +40,7 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public List<TimeTrigger> triggers;
+    private List<TimeTrigger> triggers;
 
     private enum State
     {
@@ -78,6 +79,11 @@ public class TimeManager : MonoBehaviour
                     for (int i = triggers.Count - 1; i >= 0; i--)
                     {
                         var trigger = triggers[i];
+                        if (!trigger.inUse)
+                        {
+                            triggers.RemoveAt(i);
+                            continue;
+                        }
 
                         if (Day != trigger.day && trigger.day != -1)
                             continue;
@@ -85,12 +91,13 @@ public class TimeManager : MonoBehaviour
                         if (VirtualTimeInHour > trigger.hour)
                         {
                             trigger.messageReceiver.SendMessage(trigger.message);
+
+                            if (trigger.day != -1)
+                            {
+                                triggers.RemoveAt(i);
+                            }
                         }
 
-                        if (trigger.day != -1)
-                        {
-                            triggers.RemoveAt(i);
-                        }
                     }
 
                     if (null != clockPointer)

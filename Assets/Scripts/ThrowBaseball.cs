@@ -36,15 +36,7 @@ public class ThrowBaseball : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-	    if(gameObject.name == "BaseballBoy")
-        {
-            otherBoy = GameObject.Find("AnotherBaseballBoy");
-        }
 
-        else if(gameObject.name == "AnotherBaseballBoy")
-        {
-            otherBoy = GameObject.Find("BaseballBoy");
-        }
 	}
 	
 	// Update is called once per frame

@@ -150,6 +150,11 @@ public class PathFinder : MonoBehaviour
     static readonly int[] deltaX = { 1, 0, -1, 0 };
     static readonly int[] deltaY = { 0, 1, 0, -1 };
 
+    public void FindPath(Transform t)
+    {
+        FindPath(t.position.x, t.position.y);
+    }
+
     public void FindPath(float x, float y)
     {
         int ix = Mathf.FloorToInt((x - mapRect.xMin) / gridWidth);

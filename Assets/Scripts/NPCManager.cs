@@ -10,6 +10,9 @@ public class NPCManager : MonoBehaviour {
     public GameObject doll;
     public GameObject baseball;
 
+    public Transform[] girlWayPoints;
+
+
     public GameObject currentLittleGirl;
     public GameObject currentBaseballBoy;
     public GameObject currentAnotherBaseballBoy;
@@ -36,7 +39,8 @@ public class NPCManager : MonoBehaviour {
         Vector3 spawnPoint = new Vector3(479, -1271, -5);
         Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
         currentLittleGirl = (GameObject)Instantiate(littleGirl, spawnPoint, spawnRotation);
-        currentLittleGirl.GetComponent<PathFinder>().FindPath(809, -474);
+        //currentLittleGirl.GetComponent<PathFinder>().FindPath(809, -474);
+        currentLittleGirl.GetComponent<WayPointsWalker>().InitWayPoints(girlWayPoints);
         createGirlMother();
     }
 
@@ -51,8 +55,9 @@ public class NPCManager : MonoBehaviour {
     {
         Vector3 spawnPoint = new Vector3(457, -1265, -5);
         Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-        currentGirlMother = (GameObject)Instantiate(girlMother, currentLittleGirl.transform);
-        //currentGirlMother.transform.parent = currentLittleGirl.transform;
+        currentGirlMother = (GameObject)Instantiate(girlMother);
+        currentGirlMother.transform.position = currentLittleGirl.transform.position;
+        currentGirlMother.GetComponent<Follower>().followee = currentLittleGirl.gameObject;
     }
 
     public void destroyGirlMother()
@@ -63,47 +68,50 @@ public class NPCManager : MonoBehaviour {
 
     public void createBaseballBoy()
     {
-        Vector3 spawnPoint = new Vector3(184, -241, -5);
-        Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-        currentBaseballBoy = (GameObject)Instantiate(baseballBoy, spawnPoint, spawnRotation);
-        currentBaseballBoy.GetComponent<PathFinder>().FindPath(515, -922);
+        {
+            Vector3 spawnPoint = new Vector3(184, -241, -5);
+            Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
+            currentBaseballBoy = (GameObject)Instantiate(baseballBoy, spawnPoint, spawnRotation);
+            currentBaseballBoy.GetComponent<PathFinder>().FindPath(515, -922);
+        }
+
+        {
+            Vector3 spawnPoint = new Vector3(625, -271, -5);
+            Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
+            currentAnotherBaseballBoy = (GameObject)Instantiate(anotherBaseballBoy, spawnPoint, spawnRotation);
+            currentAnotherBaseballBoy.GetComponent<PathFinder>().FindPath(511, -660);
+        }
+
+        currentBaseballBoy.GetComponent<ThrowBaseball>().otherBoy = currentAnotherBaseballBoy;
+        currentAnotherBaseballBoy.GetComponent<ThrowBaseball>().otherBoy = currentBaseballBoy;
+
+        {
+            Vector3 spawnPoint = new Vector3(625, -271, -5);
+            Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
+            currentBaseball = (GameObject)Instantiate(baseball);
+            currentBaseball.GetComponent<ItemProperty>().isPickedUp = true;
+            currentBaseball.GetComponent<ItemProperty>().owner = currentBaseballBoy;
+            currentBaseballBoy.GetComponent<ThrowBaseball>().hasBall = true;
+            currentBaseballBoy.GetComponent<ThrowBaseball>().isAtPlayingPosition = false;
+        }
     }
 
     public void destroyBaseballBoy()
     {
-        GameObject toBeDestroy = GameObject.Find("BaseballBoy");
-        Destroy(toBeDestroy);
-    }
+        {
+            GameObject toBeDestroy = GameObject.Find("BaseballBoy");
+            Destroy(toBeDestroy);
+        }
 
-    public void createAnotherBaseballBoy()
-    {
-        Vector3 spawnPoint = new Vector3(625, -271, -5);
-        Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-        currentAnotherBaseballBoy = (GameObject)Instantiate(anotherBaseballBoy, spawnPoint, spawnRotation);
-        currentAnotherBaseballBoy.GetComponent<PathFinder>().FindPath(511, -660);
-    }
+        {
+            GameObject toBeDestroy = GameObject.Find("AnotherBaseballBoy");
+            Destroy(toBeDestroy);
+        }
 
-    public void destroyAnotherBaseballBoy()
-    {
-        GameObject toBeDestroy = GameObject.Find("AnotherBaseballBoy");
-        Destroy(toBeDestroy);
-    }
-
-    public void createBaseball()
-    {
-        Vector3 spawnPoint = new Vector3(625, -271, -5);
-        Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-        currentBaseball = (GameObject)Instantiate(baseball);
-        currentBaseball.GetComponent<ItemProperty>().isPickedUp = true;
-        currentBaseball.GetComponent<ItemProperty>().owner = currentBaseballBoy;
-        currentBaseballBoy.GetComponent<ThrowBaseball>().hasBall = true;
-        currentBaseballBoy.GetComponent<ThrowBaseball>().isAtPlayingPosition = false;
-    }
-
-    public void destroyBaseball()
-    {
-        GameObject toBeDestroy = GameObject.Find("Baseball");
-        Destroy(toBeDestroy);
+        {
+            GameObject toBeDestroy = GameObject.Find("Baseball");
+            Destroy(toBeDestroy);
+        }
     }
 
     public void createDoll()
