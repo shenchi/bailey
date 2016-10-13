@@ -33,45 +33,49 @@ public class ThrowBaseball : MonoBehaviour {
     /// </summary>
     public bool isUpset;
 
+    private bool isArrived;
 	// Use this for initialization
 	void Start ()
     {
 
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        if (null == item)
+        if (isArrived)
         {
-            hasBall = false;
-            return;
-        }
+            if (null == item)
+            {
+                hasBall = false;
+                return;
+            }
 
-        if (hasBall == true)
-        {
-            lastTimePlaying = Time.time;
-            isPlaying = true;
-            throwBall();
-        }
+            if (hasBall == true)
+            {
+                lastTimePlaying = Time.time;
+                isPlaying = true;
+                throwBall();
+            }
 
-        if(hasBall == false && otherBoy.GetComponent<ThrowBaseball>().hasBall == false && Time.time - lastTimePlaying >= timeTillUpset)
-        {
-            isUpset = true;
-        }
+            if (hasBall == false && otherBoy.GetComponent<ThrowBaseball>().hasBall == false && Time.time - lastTimePlaying >= timeTillUpset)
+            {
+                isUpset = true;
+            }
 
-        if(item.name != "Baseball")
-        {
-            item.GetComponent<ItemProperty>().isPickedUp = false;
-            item.GetComponent<ItemProperty>().owner = null;
-            item = null;
-        }
+            if (item.name != "Baseball")
+            {
+                item.GetComponent<ItemProperty>().isPickedUp = false;
+                item.GetComponent<ItemProperty>().owner = null;
+                item = null;
+            }
 
-        if(item.name == "Baseball")
-        {
-            hasBall = true;
+            if (item.name == "Baseball")
+            {
+                hasBall = true;
+            }
         }
-	}
+    }
 
     public void throwBall()
     {
@@ -98,5 +102,8 @@ public class ThrowBaseball : MonoBehaviour {
     {
         hasBall = true;
         item = ball;
+    }
+    public void Arrived() {
+        isArrived = true;
     }
 }

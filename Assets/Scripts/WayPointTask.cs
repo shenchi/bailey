@@ -10,6 +10,8 @@ public class WayPointTask : MonoBehaviour
     {
         WaitForSeconds,
         DropDoll,
+        WaitForBoysReady,
+        StartToPlayBaseball,
     }
 
     [Serializable]
@@ -60,6 +62,28 @@ public class WayPointTask : MonoBehaviour
                         GameObject NPCManag = GameObject.Find("NPCManager");
                         NPCManag.GetComponent<NPCManager>().currentDoll.GetComponent<ItemProperty>().Drop(NPCManag.GetComponent<NPCManager>().currentLittleGirl);
                         currentTask++;
+                    }
+                    break;
+
+                case TaskType.WaitForBoysReady:
+                    {
+                        bool ready=false;
+                        do
+                        {
+                            GameObject b1 = GameObject.Find("NPCManager").GetComponent<NPCManager>().currentBaseballBoy;
+                            GameObject b2 = GameObject.Find("NPCManager").GetComponent<NPCManager>().currentAnotherBaseballBoy;
+                            ready = b1.GetComponent<WayPointsWalker>().currentWayPoint == 0 && b2.GetComponent<WayPointsWalker>().currentWayPoint == 0 && b1.GetComponent<PathFinder>().CurrentState != PathFinder.State.InPath && b2.GetComponent<PathFinder>().CurrentState != PathFinder.State.InPath;
+                            yield return null;
+                        } while (!ready);
+                        currentTask++;
+                    }
+                    break;
+                case TaskType.StartToPlayBaseball:
+                    {
+                        GameObject b1 = GameObject.Find("NPCManager").GetComponent<NPCManager>().currentBaseballBoy;
+                        GameObject b2 = GameObject.Find("NPCManager").GetComponent<NPCManager>().currentAnotherBaseballBoy;
+                        b1.GetComponent<ThrowBaseball>().Arrived();
+                        b2.GetComponent<ThrowBaseball>().Arrived();
                     }
                     break;
             }
