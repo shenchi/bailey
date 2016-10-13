@@ -28,6 +28,9 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public float VirtualTimeInHour { get; private set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public int Day
     {
         get
@@ -38,8 +41,15 @@ public class TimeManager : MonoBehaviour
 
     public List<TimeTrigger> triggers;
 
-    private bool paused = true;
-    private float timeWhenDayBegin;
+    private enum State
+    {
+        None,
+        Day,
+        Night,
+    }
+
+    private State state = State.None;
+    private float timeWhenStateBegin;
     private int dayPassed = 0;
     
     void Awake()
@@ -56,60 +66,96 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (paused)
-            return;
+        float elapsedTime = Time.time - timeWhenStateBegin;
 
-        float elapsedTime = Time.time - timeWhenDayBegin;
-        float progress = elapsedTime / timeForDayTime;
-        VirtualTimeInHour = progress * 12;
-
-        for (int i = triggers.Count - 1; i >= 0; i--)
+        switch (state)
         {
-            var trigger = triggers[i];
+            case State.Day:
+                {
+                    float progress = elapsedTime / timeForDayTime;
+                    VirtualTimeInHour = progress * 12;
 
-            if (Day != trigger.day && trigger.day != -1)
-                continue;
+                    for (int i = triggers.Count - 1; i >= 0; i--)
+                    {
+                        var trigger = triggers[i];
 
-            if (VirtualTimeInHour > trigger.hour)
-            {
-                trigger.messageReceiver.SendMessage(trigger.message);
-            }
+                        if (Day != trigger.day && trigger.day != -1)
+                            continue;
 
-            if (trigger.day != -1)
-            {
-                triggers.RemoveAt(i);
-            }
-        }
+                        if (VirtualTimeInHour > trigger.hour)
+                        {
+                            trigger.messageReceiver.SendMessage(trigger.message);
+                        }
 
-        if (null != clockPointer)
-        {
-            float angle = progress * 360.0f - 120.0f;
-            clockPointer.localRotation = Quaternion.Euler(0, 0, -angle);
-        }
+                        if (trigger.day != -1)
+                        {
+                            triggers.RemoveAt(i);
+                        }
+                    }
 
-        if (null != dayLightEffect)
-        {
-            float x = progress * 0.8f + 0.2f;
-            float t = Mathf.Clamp01(Mathf.Pow((Mathf.Cos(x * 2.0f * Mathf.PI) + 1) * 0.5f, 3) );
-            dayLightEffect.tintColor = Color.Lerp(noonColor, dawnColor, t);
+                    if (null != clockPointer)
+                    {
+                        float angle = progress * 360.0f - 120.0f;
+                        clockPointer.localRotation = Quaternion.Euler(0, 0, -angle);
+                    }
+
+                    if (null != dayLightEffect)
+                    {
+                        float x = Mathf.Pow(progress, 0.7f);// progress * 0.8f + 0.2f;
+                        float t = Mathf.Clamp01(Mathf.Pow((Mathf.Cos(x * 2.0f * Mathf.PI) + 1) * 0.5f, 2));
+                        dayLightEffect.tintColor = Color.Lerp(noonColor, dawnColor, t);
+                    }
+
+                    if (progress >= 1.0f)
+                    {
+                        EndDay();
+                    }
+                }
+                break;
+            case State.Night:
+                {
+                    float progress = elapsedTime / 10.0f;
+
+                    float x = progress * 1.2f;
+
+                    if (null != dayLightEffect && x <= 1.0f)
+                    {
+                        float t = Mathf.Clamp01(Mathf.Pow(Mathf.Sin(x * Mathf.PI), 0.5f));
+                        dayLightEffect.tintColor = Color.Lerp(dawnColor, Color.black, t);
+                    }
+
+                    if (progress >= 1.0f)
+                    {
+                        StartDay();
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
     void StartDay()
     {
-        if (!paused)
+        if (state == State.Day)
             return;
-        
-        timeWhenDayBegin = Time.time;
-        paused = false;
+
+        clockPointer.parent.gameObject.SetActive(true);
+
+        timeWhenStateBegin = Time.time;
+        state = State.Day;
     }
 
     void EndDay()
     {
-        if (paused)
+        if (state != State.Day)
             return;
 
-        paused = true;
+
+        clockPointer.parent.gameObject.SetActive(false);
+
         dayPassed++;
+        timeWhenStateBegin = Time.time;
+        state = State.Night;
     }
 }
