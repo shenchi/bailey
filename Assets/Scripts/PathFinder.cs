@@ -17,6 +17,10 @@ public class PathFinder : MonoBehaviour
     private int gridWidth;
     private int gridHeight;
 
+    private Animator anim = null;
+    private int velXId = 0;
+    private int velYId = 0;
+
     private enum State
     {
         NoPath = 0,
@@ -37,6 +41,10 @@ public class PathFinder : MonoBehaviour
         gridHeight = MapManager.TileMap.TileHeight;
 
         mapRect = MapManager.TileMap.GetMapRect();
+
+        anim = GetComponent<Animator>();
+        velXId = Animator.StringToHash("velX");
+        velYId = Animator.StringToHash("velY");
 
         Direction = Vector3.zero;
     }
@@ -103,6 +111,12 @@ public class PathFinder : MonoBehaviour
             default:
                 Direction = Vector3.zero;
                 break;
+        }
+
+        if (null != anim)
+        {
+            anim.SetFloat(velXId, Direction.x * 100.0f);
+            anim.SetFloat(velYId, Direction.y * 100.0f);
         }
     }
 
