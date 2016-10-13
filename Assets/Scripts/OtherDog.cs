@@ -141,4 +141,7 @@ public class OtherDog : MonoBehaviour
         BeginToAttack(go);
         curhp = Mathf.Clamp(curhp - damage, 0, maxhp);
     }
+    public void HelpFirend(GameObject target) {
+        BeginToAttack(target);
+    }
 }

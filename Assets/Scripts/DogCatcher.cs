@@ -7,7 +7,7 @@ public class DogCatcher : MonoBehaviour
     private Vector3 destination;
     private bool isFollowing;
     private GameObject target;
-    private bool isFirst;
+    private bool isArrived;
     public int hp;
     public int attack;
     private float attackCd;
@@ -15,70 +15,106 @@ public class DogCatcher : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player");       
+        target = GameObject.FindGameObjectWithTag("Player");
         isFollowing = true;
         LostTime = 0;
         attackCd = 1;
-        isFirst = true;
+        isArrived = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isFirst) {
-            destination = target.transform.position;
-            GetComponent<PathFinder>().FindPath(destination.x, destination.y);
-            isFirst = false;
-        }
-
-        if (target == null) {
-            target= GameObject.FindGameObjectWithTag("Player");
-        }
-        //goto first crime place
-        if (Vector3.Distance(transform.position, destination) < 30)
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        if (isArrived)
         {
-            destination = target.transform.position;
-            isFollowing = false;
-            if (attackCd == 1)
+            if (distance < 20)
             {
-                attackCd -= Time.deltaTime;
-                Attack(target);
-            }
-            else {
-                attackCd -= Time.deltaTime;
-                if (attackCd <= 0) {
-                    attackCd = 1;
-                }
-            }
-        }
-        else
-        {
-            isFollowing = true;
-        }
-        if (isFollowing)
-        {
-            if (Vector3.Distance(transform.position, destination) < 10)
-            {
-                if (target.activeInHierarchy)
+                //attack
+                if (attackCd == 1)
                 {
-                    destination = target.transform.position;
-                    GetComponent<PathFinder>().FindPath(destination.x, destination.y);
+                    attackCd -= Time.deltaTime;
+                    Attack(target);
                 }
                 else
                 {
-                    LostTime += Time.deltaTime;
+                    attackCd -= Time.deltaTime;
+                    if (attackCd <= 0)
+                    {
+                        attackCd = 1;
+                    }
                 }
             }
+            else
+            {
+                destination = target.transform.position;
+                GetComponent<PathFinder>().FindPath(destination.x, destination.y);
+                isArrived = false;
+            }
+            
         }
-        if (LostTime > 10) {
-            Destroy(gameObject);
+        else
+        {
+            if (Vector3.Distance(transform.position, destination) < 15)
+            {
+                isArrived = true;
+            }
         }
+
+
+        //if (isFirst) {
+        //    destination = target.transform.position;
+        //    GetComponent<PathFinder>().FindPath(destination.x, destination.y);
+        //    isFirst = false;
+        //}
+
+        //if (target == null) {
+        //    target= GameObject.FindGameObjectWithTag("Player");
+        //}
+        ////goto first crime place
+        //if (Vector3.Distance(transform.position, destination) < 30)
+        //{
+        //    destination = target.transform.position;
+        //    isFollowing = false;
+        //    if (attackCd == 1)
+        //    {
+        //        attackCd -= Time.deltaTime;
+        //        Attack(target);
+        //    }
+        //    else {
+        //        attackCd -= Time.deltaTime;
+        //        if (attackCd <= 0) {
+        //            attackCd = 1;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    isFollowing = true;
+        //}
+        //if (isFollowing)
+        //{
+        //    if (Vector3.Distance(transform.position, destination) < 10)
+        //    {
+        //        if (target.activeInHierarchy)
+        //        {
+        //            destination = target.transform.position;
+        //            GetComponent<PathFinder>().FindPath(destination.x, destination.y);
+        //        }
+        //        else
+        //        {
+        //            LostTime += Time.deltaTime;
+        //        }
+        //    }
+        //}
+        //if (LostTime > 10) {
+        //    Destroy(gameObject);
+        //}
         //every time reach place find again
 
     }
     void Attack(GameObject go)
     {
-        print("DogCatcherAttack");
         if (target.tag == "Player")
         {
             go.GetComponent<PlayerController>().TakeAttack(attack);
@@ -92,7 +128,8 @@ public class DogCatcher : MonoBehaviour
     {
         target = go;
         hp = Mathf.Clamp(hp - damage, 0, hp);
-        if (hp <= 0) {
+        if (hp <= 0)
+        {
             Destroy(gameObject);
         }
     }

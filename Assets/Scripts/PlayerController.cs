@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (IsAttackAnim) {           
             if (AttackAnim == 0) {
                 transform.position +=  3*direction;
@@ -101,7 +100,7 @@ public class PlayerController : MonoBehaviour
                     GetComponentInChildren<TextMesh>().text = "";
                 }
             }
-            if (NowOnObject != null && Input.GetButtonDown("Attack") && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog") && attackCd == 1)
+            if (NowOnObject != null && Input.GetButtonDown("Attack") && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog" || NowOnObject.tag == "DogCatcher") && attackCd == 1)
             {
                 IsAttackAnim = true;
                 Attack(NowOnObject);
@@ -175,6 +174,7 @@ public class PlayerController : MonoBehaviour
     }
     void Attack(GameObject other)
     {
+        print(other.tag);
         if (other.tag == "NPC")
         {
             other.GetComponent<NPCProperty>().TakeAttack();
