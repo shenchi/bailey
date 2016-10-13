@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     public int curhp;
     public int maxhp;
     public float attackCd;
+    private bool IsAttackAnim;
+    private float AttackAnim;
+    private Vector3 direction;
 
     public float velX;
     public float velY;
@@ -34,17 +37,30 @@ public class PlayerController : MonoBehaviour
         animVelXId = Animator.StringToHash("velX");
         animVelYId = Animator.StringToHash("velY");
         CrimeIndex = 0;
-        attackCd = 3;
+        attackCd = 1;
+        AttackAnim = 0;
+        direction = Vector3.zero;
+        gameObject.tag = "DogCatcher";
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
+        if (IsAttackAnim) {           
+            if (AttackAnim == 0) {
+                transform.position +=  3*direction;
+            }           
+            AttackAnim += Time.deltaTime;
+            if (AttackAnim >= 0.1) {
+                transform.position -= 3*direction;
+                IsAttackAnim = false;
+                AttackAnim = 0;
+            }
+        }
         float xAxis = Input.GetAxis("Horizontal");
         float yAxis = Input.GetAxis("Vertical");
-        Vector3 vel = Vector3.zero;
-
+        Vector3 vel = Vector3.zero;        
         if (Mathf.Abs(xAxis) > Mathf.Abs(yAxis))
         {
             vel.x = xAxis;
@@ -53,7 +69,10 @@ public class PlayerController : MonoBehaviour
         {
             vel.y = yAxis;
         }
-
+        if (vel.x != 0||vel.y!=0)
+        {
+            direction = vel.normalized;
+        }
         if (dogHouse.GetComponent<DogHouseInventory>().isOpened == false)
         {
             if (Input.GetButtonDown("Pick") && hasItem == false)
@@ -82,17 +101,18 @@ public class PlayerController : MonoBehaviour
                     GetComponentInChildren<TextMesh>().text = "";
                 }
             }
-            if (NowOnObject != null && Input.GetButtonDown("Attack") && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog") && attackCd == 3)
+            if (NowOnObject != null && Input.GetButtonDown("Attack") && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog") && attackCd == 1)
             {
+                IsAttackAnim = true;
                 Attack(NowOnObject);
                 attackCd -= Time.deltaTime;
             }
-            if (attackCd < 3)
+            if (attackCd < 1)
             {
                 attackCd -= Time.deltaTime;
                 if (attackCd <= 0)
                 {
-                    attackCd = 3;
+                    attackCd = 1;
                 }
             }
             if (NowOnObject != null && Input.GetButtonDown("Hide") && NowOnObject.tag == "Hide")
@@ -143,6 +163,10 @@ public class PlayerController : MonoBehaviour
         {
             NowOnObject = other.gameObject;
         }
+        else if (other.tag == "DogCatcher")
+        {
+            NowOnObject = other.gameObject;
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {
@@ -159,6 +183,10 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "OtherDog")
         {
             other.GetComponent<OtherDog>().TakeAttack(this.attack, gameObject);
+        }
+        else if (other.tag == "DogCatcher")
+        {
+            other.GetComponent<DogCatcher>().TakeAttack(this.attack, gameObject);
         }
     }
     public void TakeAttack(int damage)

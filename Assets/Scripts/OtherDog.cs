@@ -26,6 +26,7 @@ public class OtherDog : MonoBehaviour
         if (i < 20) {
             BeginToAttack(GameObject.FindGameObjectWithTag("Player"));
         }
+        this.tag = "OtherDog";
     }
 
     // Update is called once per frame
