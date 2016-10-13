@@ -6,12 +6,12 @@ public class ItemProperty : MonoBehaviour {
     /// <summary>
     /// Is this item being picked up by the player?
     /// </summary>
-    public bool isPickedUp;
+    public bool isPickedUp = false;
 
     /// <summary>
     /// The current owner of this item.
     /// </summary>
-    public GameObject owner;
+    public GameObject owner = null;
 
     /// <summary>
     /// The correct NPC this item is used to iteract with.
@@ -23,13 +23,16 @@ public class ItemProperty : MonoBehaviour {
     /// </summary>
     public int happiness;
 
+    /// <summary>
+    /// Is this item placed in dog house?
+    /// </summary>
+    public bool isHome = false;
+
     public GameObject previousOwner;
 
 	// Use this for initialization
 	void Start ()
     {
-        isPickedUp = false;
-        owner = null;
 	}
 	
 	// Update is called once per frame

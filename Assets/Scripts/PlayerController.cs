@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Pick") && hasItem == false)
             {
                 //Detect Item
-                if (NowOnObject != null && NowOnObject.tag == "Item")
+                if (NowOnObject != null && NowOnObject.tag == "Item" && NowOnObject.GetComponent<ItemProperty>().isPickedUp == false)
                 {
                     pickedItem = NowOnObject;
                     NowOnObject.GetComponent<ItemProperty>().PickUp(gameObject);
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Item")
+        if (other.tag == "Item" && other.GetComponent<ItemProperty>().isPickedUp == false)
         {
             GetComponentInChildren<TextMesh>().text = "Press E to pick up";
             NowOnObject = other.gameObject;

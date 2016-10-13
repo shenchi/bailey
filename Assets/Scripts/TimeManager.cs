@@ -133,6 +133,20 @@ public class TimeManager : MonoBehaviour
 
                     if (progress >= 1.0f)
                     {
+
+                        foreach (GameObject NPC in GameObject.FindGameObjectsWithTag("NPC"))
+                        {
+                            Destroy(NPC);
+                        }
+
+                        foreach (GameObject item in GameObject.FindGameObjectsWithTag("Item"))
+                        {
+                            if (item.GetComponent<ItemProperty>().isHome == false && item.GetComponent<ItemProperty>().owner == null)
+                            {
+                                Destroy(item);
+                            }
+                        }
+
                         StartDay();
                     }
                 }

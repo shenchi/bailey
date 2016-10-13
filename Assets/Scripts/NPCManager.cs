@@ -43,6 +43,8 @@ public class NPCManager : MonoBehaviour {
         currentLittleGirl.GetComponent<WayPointsWalker>().InitWayPoints(girlWayPoints);
         createGirlMother();
         createDoll();
+        //GameObject wayPointThree = GameObject.Find("wayPoint3");
+        //wayPointThree.GetComponent<WayPointTask>().
     }
 
     public void destroyLittleGirl()
@@ -122,6 +124,7 @@ public class NPCManager : MonoBehaviour {
         currentDoll = (GameObject)Instantiate(doll, spawnPoint, spawnRotation);
         currentDoll.GetComponent<ItemProperty>().isPickedUp = true;
         currentDoll.GetComponent<ItemProperty>().owner = currentLittleGirl;
+        print(currentDoll.GetComponent<ItemProperty>().isPickedUp + " " + currentDoll.GetComponent<ItemProperty>().owner);
     }
 
     public void destroyDoll()

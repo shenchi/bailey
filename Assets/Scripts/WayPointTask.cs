@@ -9,6 +9,7 @@ public class WayPointTask : MonoBehaviour
     public enum TaskType
     {
         WaitForSeconds,
+        DropDoll,
     }
 
     [Serializable]
@@ -50,6 +51,14 @@ public class WayPointTask : MonoBehaviour
                     {
                         float seconds = float.Parse(subTask.value);
                         yield return new WaitForSeconds(seconds);
+                        currentTask++;
+                    }
+                    break;
+
+                case TaskType.DropDoll:
+                    {
+                        GameObject NPCManag = GameObject.Find("NPCManager");
+                        NPCManag.GetComponent<NPCManager>().currentDoll.GetComponent<ItemProperty>().Drop(NPCManag.GetComponent<NPCManager>().currentLittleGirl);
                         currentTask++;
                     }
                     break;
