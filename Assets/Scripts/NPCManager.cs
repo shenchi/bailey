@@ -42,7 +42,7 @@ public class NPCManager : MonoBehaviour {
 
     public void destroyLittleGirl()
     {
-        GameObject toBeDestroy = GameObject.Find("littleGirl");
+        GameObject toBeDestroy = GameObject.Find("LittleGirl");
         destroyGirlMother();
         Destroy(toBeDestroy);
     }
