@@ -21,7 +21,32 @@ public class WayPointsWalker : MonoBehaviour
     {
         if (pathFinder.CurrentState != PathFinder.State.InPath)
         {
-            if (null != wayPoints && wayPoints.Count > 0 && currentWayPoint < wayPoints.Count - 1)
+            bool allFinished = true;
+
+            if (currentWayPoint >= 0)
+            {
+                WayPointTask[] task = wayPoints[currentWayPoint].GetComponents<WayPointTask>();
+                if (task.Length > 0)
+                {
+                    for (int i = 0; i < task.Length; i++)
+                    {
+                        if (task[i].enabled == false)
+                        {
+                            task[i].enabled = true;
+                            allFinished = false;
+                            break;
+                        }
+                        if (!task[i].isFinished)
+                        {
+                            allFinished = false;
+                            break;
+                        }
+                    }
+                }
+                
+            }
+
+            if (allFinished && null != wayPoints && wayPoints.Count > 0 && currentWayPoint < wayPoints.Count - 1)
             {
                 currentWayPoint++;
                 pathFinder.FindPath(wayPoints[currentWayPoint].transform);

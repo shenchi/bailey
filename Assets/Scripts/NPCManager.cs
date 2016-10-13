@@ -42,6 +42,7 @@ public class NPCManager : MonoBehaviour {
         //currentLittleGirl.GetComponent<PathFinder>().FindPath(809, -474);
         currentLittleGirl.GetComponent<WayPointsWalker>().InitWayPoints(girlWayPoints);
         createGirlMother();
+        createDoll();
     }
 
     public void destroyLittleGirl()
@@ -117,8 +118,8 @@ public class NPCManager : MonoBehaviour {
     public void createDoll()
     {
         Vector3 spawnPoint = new Vector3(479, -1271, -5);
-        Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
-        currentDoll = (GameObject)Instantiate(doll);
+        Quaternion spawnRotation = Quaternion.identity;
+        currentDoll = (GameObject)Instantiate(doll, spawnPoint, spawnRotation);
         currentDoll.GetComponent<ItemProperty>().isPickedUp = true;
         currentDoll.GetComponent<ItemProperty>().owner = currentLittleGirl;
     }
