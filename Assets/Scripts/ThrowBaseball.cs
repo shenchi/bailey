@@ -42,7 +42,13 @@ public class ThrowBaseball : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	    if(hasBall == true)
+        if (null == item)
+        {
+            hasBall = false;
+            return;
+        }
+
+        if (hasBall == true)
         {
             lastTimePlaying = Time.time;
             isPlaying = true;
@@ -71,8 +77,6 @@ public class ThrowBaseball : MonoBehaviour {
     {
         //throw baseball towards otherBoy, probably need a lerp
         float randomNum = Random.Range(0, 1);
-        item = null;
-        hasBall = false;
 
         if (randomNum >= 0 && randomNum <= 0.7)
         {
@@ -86,6 +90,8 @@ public class ThrowBaseball : MonoBehaviour {
             item.GetComponent<LinearMovement>().MoveTo(new Vector3(otherBoy.transform.position.x + 60, otherBoy.transform.position.y, otherBoy.transform.position.z));
         }
 
+        item = null;
+        hasBall = false;
     }
 
     void OnBallCatched(GameObject ball)
