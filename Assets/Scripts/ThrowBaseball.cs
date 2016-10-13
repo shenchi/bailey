@@ -63,22 +63,23 @@ public class ThrowBaseball : MonoBehaviour {
                 isUpset = true;
             }
 
-            if (item.name != "Baseball")
-            {
-                item.GetComponent<ItemProperty>().isPickedUp = false;
-                item.GetComponent<ItemProperty>().owner = null;
-                item = null;
-            }
+            //if (item.name != "Baseball")
+            //{
+            //    item.GetComponent<ItemProperty>().isPickedUp = false;
+            //    item.GetComponent<ItemProperty>().owner = null;
+            //    item = null;
+            //}
 
-            if (item.name == "Baseball")
-            {
-                hasBall = true;
-            }
+            //if (item.name == "Baseball")
+            //{
+            //    hasBall = true;
+            //}
         }
     }
 
     public void throwBall()
     {
+        item.GetComponent<ItemProperty>().Drop(gameObject);
         //throw baseball towards otherBoy, probably need a lerp
         float randomNum = Random.Range(0, 1);
 

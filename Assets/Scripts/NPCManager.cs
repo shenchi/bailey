@@ -94,9 +94,11 @@ public class NPCManager : MonoBehaviour {
         {
             Vector3 spawnPoint = new Vector3(625, -271, -5);
             currentBaseball = (GameObject)Instantiate(baseball, spawnPoint,Quaternion.identity);
+            currentBaseball.name = "Baseball";
             currentBaseball.GetComponent<ItemProperty>().isPickedUp = true;
             currentBaseball.GetComponent<ItemProperty>().owner = currentBaseballBoy;
             currentBaseballBoy.GetComponent<ThrowBaseball>().hasBall = true;
+            currentBaseballBoy.GetComponent<ThrowBaseball>().item = currentBaseball;
             currentBaseballBoy.GetComponent<ThrowBaseball>().isAtPlayingPosition = false;
         }
     }
