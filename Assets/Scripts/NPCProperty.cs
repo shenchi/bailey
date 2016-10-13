@@ -43,9 +43,24 @@ public class NPCProperty : MonoBehaviour {
                 GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
+
+        if(NPCHappiness >= howMuchToHappy && tag == "NPC" && myName != "WildDog")
+        {
+            isHappy = true;
+        }
+
+        if(isHappy == true)
+        {
+            Application.LoadLevel(3);
+        }
     }
 
     public void SetMood(string m) {
+        if (transform.FindChild("Mood") == null)
+        {
+            return;
+        }
+
         if (m == "bad")
         {
             isHappy = false;
