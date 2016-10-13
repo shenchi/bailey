@@ -73,7 +73,7 @@ public class TimeManager : MonoBehaviour
             case State.Day:
                 {
                     float progress = elapsedTime / timeForDayTime;
-                    VirtualTimeInHour = progress * 12;
+                    VirtualTimeInHour = progress * 12 + 8;
 
                     for (int i = triggers.Count - 1; i >= 0; i--)
                     {

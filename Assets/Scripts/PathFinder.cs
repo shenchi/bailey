@@ -17,20 +17,24 @@ public class PathFinder : MonoBehaviour
     private int gridWidth;
     private int gridHeight;
 
+    private Animator anim = null;
+    private int velXId = 0;
+    private int velYId = 0;
+    
     public enum State
     {
         NoPath = 0,
-        HeadingFirst,
         InPath,
         Reached
     }
 
     State state = State.NoPath;
+
+    public State CurrentState { get { return state; } }
+
     int currentPathNode = -1;
     float targetPosX = 0.0f;
     float targetPosY = 0.0f;
-
-    public State CurrentState { get { return state; } }
 
     // Use this for initialization
     void Start()
@@ -40,26 +44,25 @@ public class PathFinder : MonoBehaviour
 
         mapRect = MapManager.TileMap.GetMapRect();
 
+        anim = GetComponent<Animator>();
+        velXId = Animator.StringToHash("velX");
+        velYId = Animator.StringToHash("velY");
+
+        UpdatePosition();
+        
         Direction = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentPosX = Mathf.FloorToInt((transform.position.x + pivotOffset.x - mapRect.xMin) / gridWidth);
-        currentPosY = Mathf.FloorToInt((-transform.position.y - pivotOffset.y - mapRect.yMax) / gridHeight);
+        UpdatePosition();
 
         switch (state)
         {
             case State.Reached:
                 state = State.NoPath;
                 currentPathNode = -1;
-                Direction = Vector3.zero;
-                break;
-            case State.HeadingFirst:
-                targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
-                targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
-                state = State.InPath;
                 Direction = Vector3.zero;
                 break;
             case State.InPath:
@@ -75,9 +78,9 @@ public class PathFinder : MonoBehaviour
                         targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
                         targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
                     }
-                    Direction = Vector3.zero;
                 }
-                else if (Mathf.Abs(targetPosX - transform.position.x) > moveThreshold)
+
+                if (Mathf.Abs(targetPosX - transform.position.x) > moveThreshold)
                 {
                     if (targetPosX < transform.position.x)
                     {
@@ -88,7 +91,7 @@ public class PathFinder : MonoBehaviour
                         Direction = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
                     }
                 }
-                else
+                else if (Mathf.Abs(targetPosY - transform.position.y) > moveThreshold)
                 {
                     if (targetPosY < transform.position.y)
                     {
@@ -99,6 +102,11 @@ public class PathFinder : MonoBehaviour
                         Direction = new Vector3(0, moveSpeed * Time.deltaTime, 0);
                     }
                 }
+                else
+                {
+                    Direction = Vector3.zero;
+                }
+
                 transform.Translate(Direction);
                 break;
             case State.NoPath:
@@ -106,6 +114,12 @@ public class PathFinder : MonoBehaviour
                 Direction = Vector3.zero;
                 break;
         }
+    }
+
+    void UpdatePosition()
+    {
+        currentPosX = Mathf.FloorToInt((transform.position.x + pivotOffset.x - mapRect.xMin) / gridWidth);
+        currentPosY = Mathf.FloorToInt((-transform.position.y - pivotOffset.y - mapRect.yMax) / gridHeight);
     }
 
     #region A*
@@ -146,6 +160,11 @@ public class PathFinder : MonoBehaviour
         HashSet<uint> openSet = new HashSet<uint>();
 
         uint startHash = HashCoord(currentPosX, currentPosY);
+
+        if (state == State.InPath)
+        {
+            startHash = HashCoord(pathX[currentPathNode], pathY[currentPathNode]);
+        }
 
         openSet.Add(startHash);
         gScore[startHash] = 0;
@@ -191,8 +210,7 @@ public class PathFinder : MonoBehaviour
                     pathY.Add(nextY);
                     lastHash = nextHash;
                 }
-
-                state = State.HeadingFirst;
+                
                 currentPathNode = pathX.Count - 1;
                 targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
                 targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
