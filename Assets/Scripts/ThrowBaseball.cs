@@ -7,6 +7,7 @@ using System.Collections;
 public class ThrowBaseball : MonoBehaviour {
 
     public bool hasBall;
+    public bool isAtPlayingPosition;
 
     public GameObject otherBoy;
 

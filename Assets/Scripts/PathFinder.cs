@@ -17,7 +17,7 @@ public class PathFinder : MonoBehaviour
     private int gridWidth;
     private int gridHeight;
 
-    private enum State
+    public enum State
     {
         NoPath = 0,
         HeadingFirst,
@@ -29,6 +29,8 @@ public class PathFinder : MonoBehaviour
     int currentPathNode = -1;
     float targetPosX = 0.0f;
     float targetPosY = 0.0f;
+
+    public State CurrentState { get { return state; } }
 
     // Use this for initialization
     void Start()
