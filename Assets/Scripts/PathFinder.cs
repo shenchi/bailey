@@ -41,6 +41,9 @@ public class PathFinder : MonoBehaviour
         gridHeight = MapManager.TileMap.TileHeight;
 
         mapRect = MapManager.TileMap.GetMapRect();
+        
+        currentPosX = Mathf.FloorToInt((transform.position.x + pivotOffset.x - mapRect.xMin) / gridWidth);
+        currentPosY = Mathf.FloorToInt((-transform.position.y - pivotOffset.y - mapRect.yMax) / gridHeight);
 
         anim = GetComponent<Animator>();
         velXId = Animator.StringToHash("velX");
