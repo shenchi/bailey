@@ -11,7 +11,8 @@ public class NPCManager : MonoBehaviour {
     public GameObject baseball;
 
     public Transform[] girlWayPoints;
-
+    public Transform[] baseballboy1WayPoints;
+    public Transform[] baseballboy2WayPoints;
 
     public GameObject currentLittleGirl;
     public GameObject currentBaseballBoy;
@@ -74,6 +75,7 @@ public class NPCManager : MonoBehaviour {
             Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
             currentBaseballBoy = (GameObject)Instantiate(baseballBoy, spawnPoint, spawnRotation);
             currentBaseballBoy.GetComponent<PathFinder>().FindPath(515, -922);
+            currentBaseballBoy.GetComponent<WayPointsWalker>().InitWayPoints(baseballboy1WayPoints);
         }
 
         {
@@ -81,6 +83,7 @@ public class NPCManager : MonoBehaviour {
             Quaternion spawnRotation = new Quaternion(0, 0, 0, 1);
             currentAnotherBaseballBoy = (GameObject)Instantiate(anotherBaseballBoy, spawnPoint, spawnRotation);
             currentAnotherBaseballBoy.GetComponent<PathFinder>().FindPath(511, -660);
+            currentAnotherBaseballBoy.GetComponent<WayPointsWalker>().InitWayPoints(baseballboy2WayPoints);
         }
 
         currentBaseballBoy.GetComponent<ThrowBaseball>().otherBoy = currentAnotherBaseballBoy;
