@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     public GameObject dogHouse;
 
     public int CrimeIndex;
+    public int attack;
+    public int curhp;
+    public int maxhp;
+    public float attackCd;
 
     public float velX;
     public float velY;
@@ -30,11 +34,13 @@ public class PlayerController : MonoBehaviour
         animVelXId = Animator.StringToHash("velX");
         animVelYId = Animator.StringToHash("velY");
         CrimeIndex = 0;
+        attackCd = 3;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         float xAxis = Input.GetAxis("Horizontal");
         float yAxis = Input.GetAxis("Vertical");
         Vector3 vel = Vector3.zero;
@@ -53,7 +59,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Pick") && hasItem == false)
             {
                 //Detect Item
-                if (NowOnObject != null&&NowOnObject.tag=="Item")
+                if (NowOnObject != null && NowOnObject.tag == "Item")
                 {
                     pickedItem = NowOnObject;
                     NowOnObject.GetComponent<ItemProperty>().PickUp(gameObject);
@@ -67,20 +73,32 @@ public class PlayerController : MonoBehaviour
                 pickedItem = null;
                 hasItem = false;
             }
-            if (Input.GetButtonDown("Return") && hasItem == true && NowOnObject.tag=="NPC")//return to NPC
+            if (Input.GetButtonDown("Return") && hasItem == true && NowOnObject.tag == "NPC")//return to NPC
             {
-                if (pickedItem.GetComponent<ItemProperty>().Return(NowOnObject)) {
+                if (pickedItem.GetComponent<ItemProperty>().Return(NowOnObject))
+                {
                     pickedItem = null;
                     hasItem = false;
                     GetComponentInChildren<TextMesh>().text = "";
                 }
             }
-            if (NowOnObject!=null&&Input.GetButtonDown("Attack") && NowOnObject.tag == "NPC") {
+            if (NowOnObject != null && Input.GetButtonDown("Attack") && (NowOnObject.tag == "NPC"|| NowOnObject.tag == "OtherDog") && attackCd == 3)
+            {
                 Attack(NowOnObject);
+                attackCd -= Time.deltaTime;
             }
-            if (NowOnObject != null && Input.GetButtonDown("Hide") && NowOnObject.tag == "Hide") {
+            if (attackCd < 3)
+            {
+                attackCd -= Time.deltaTime;
+                if (attackCd <= 0)
+                {
+                    attackCd = 3;
+                }
+            }
+            if (NowOnObject != null && Input.GetButtonDown("Hide") && NowOnObject.tag == "Hide")
+            {
                 GetComponentInChildren<TextMesh>().text = "";
-                NowOnObject.GetComponent<HidePlace>().HidePlayer(gameObject);
+                NowOnObject.GetComponent<HidePlace>().HidePlayer(gameObject);               
             }
         }
 
@@ -116,19 +134,36 @@ public class PlayerController : MonoBehaviour
                 GetComponentInChildren<TextMesh>().text = "Press R to return";
             }
         }
-        else if (other.tag == "Hide") {
+        else if (other.tag == "Hide")
+        {
             NowOnObject = other.gameObject;
             GetComponentInChildren<TextMesh>().text = "Press H to hide";
         }
+        else if (other.tag == "OtherDog")
+        {
+            NowOnObject = other.gameObject;
+        }
     }
-    void OnTriggerExit2D(Collider2D other) {
+    void OnTriggerExit2D(Collider2D other)
+    {
         GetComponentInChildren<TextMesh>().text = "";
         NowOnObject = null;
     }
     void Attack(GameObject other)
     {
-        other.GetComponent<NPCProperty>().TakeAttack();
-        CrimeIndex++;
+        if (other.tag == "NPC")
+        {
+            other.GetComponent<NPCProperty>().TakeAttack();
+            CrimeIndex++;
+        }
+        else if (other.tag == "OtherDog")
+        {
+            other.GetComponent<OtherDog>().TakeAttack(this.attack, gameObject);
+        }
+    }
+    public void TakeAttack(int damage)
+    {
+        curhp = Mathf.Clamp(curhp - damage, 0, maxhp);
     }
 
 }

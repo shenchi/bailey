@@ -55,13 +55,9 @@ public class PathFinder : MonoBehaviour
                 Direction = Vector3.zero;
                 break;
             case State.HeadingFirst:
-                if (currentPathNode < 0)
-                {
-                    currentPathNode = pathX.Count - 1;
-                    targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
-                    targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
-                    state = State.InPath;
-                }
+                targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
+                targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
+                state = State.InPath;
                 Direction = Vector3.zero;
                 break;
             case State.InPath:
@@ -195,6 +191,11 @@ public class PathFinder : MonoBehaviour
                 }
 
                 state = State.HeadingFirst;
+                currentPathNode = pathX.Count - 1;
+                targetPosX = pathX[currentPathNode] * gridWidth + gridWidth * 0.5f;
+                targetPosY = -pathY[currentPathNode] * gridHeight - gridHeight * 0.5f;
+                state = State.InPath;
+                Direction = Vector3.zero;
                 return;
             }
 
